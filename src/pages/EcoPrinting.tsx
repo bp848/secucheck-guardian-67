@@ -46,11 +46,6 @@ const EcoPrinting = () => {
           icon: <TreePine className="h-10 w-10 text-blue-600" />
         },
         {
-          title: "環境認証",
-          description: "国際的に認められた環境認証を取得しており、製品の持続可能性を保証します。",
-          icon: <FileCheck className="h-10 w-10 text-teal-600" />
-        },
-        {
           title: "専門コンサルティング",
           description: "持続可能性の専門家があなたのプロジェクトに最適な環境ソリューションをアドバイスします。",
           icon: <MessageSquare className="h-10 w-10 text-indigo-600" />
