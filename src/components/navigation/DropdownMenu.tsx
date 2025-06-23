@@ -1,5 +1,5 @@
 
-import React, { useRef, useCallback } from 'react';
+import React, { useRef } from 'react';
 
 interface DropdownMenuProps {
   isOpen: boolean;
@@ -17,19 +17,13 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
   className = '' 
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  
-  const handleMouseLeave = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
-    if (onMouseLeave) {
-      onMouseLeave(event);
-    }
-  }, [onMouseLeave]);
 
   return (
     <div 
-      className={`relative group ${className}`}
+      className={`relative ${className}`}
       ref={ref}
       onMouseEnter={onMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseLeave={onMouseLeave}
     >
       {children}
     </div>

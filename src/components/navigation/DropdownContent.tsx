@@ -16,10 +16,12 @@ const DropdownContent: React.FC<DropdownContentProps> = ({
 }) => {
   return (
     <div 
-      className={`absolute left-0 mt-2 bg-white shadow-lg rounded-md overflow-hidden z-10 transition-all duration-300 origin-top-left ${isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'} ${className}`}
+      className={`absolute left-0 mt-1 bg-white shadow-lg rounded-md overflow-hidden z-50 border border-gray-100 transition-all duration-200 ${isOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-2 invisible'} ${className}`}
       onMouseLeave={onMouseLeave}
     >
-      {children}
+      <div className="py-1">
+        {children}
+      </div>
     </div>
   );
 };

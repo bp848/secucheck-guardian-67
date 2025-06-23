@@ -31,7 +31,6 @@ const ScopeTwoOverviewTab: React.FC<ScopeTwoOverviewTabProps> = ({
         unit={scopeTwoData.unit}
         previousYearValue={scopeTwoData.yearOverYear[1].value}
         onDownloadReport={onDownloadReport}
-        onViewDetails={onViewDetails}
       />
       
       {/* カテゴリ別排出量 */}

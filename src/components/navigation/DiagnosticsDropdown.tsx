@@ -20,6 +20,7 @@ const DiagnosticsDropdown: React.FC<DiagnosticsDropdownProps> = ({
     <DropdownMenu 
       isOpen={isOpen} 
       onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       className="relative group"
     >
       <span 

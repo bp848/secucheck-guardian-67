@@ -8,11 +8,13 @@ import BasicInfoSection from '@/components/sustainability/BasicInfoSection';
 import SdgSelectionSection from '@/components/sustainability/SdgSelectionSection';
 import DiagnosticQuestionSection from '@/components/sustainability/DiagnosticQuestionSection';
 import { useToast } from "@/components/ui/use-toast";
-import { getDiagnosticUserData } from '@/utils/diagnosticUtils';
+import { getDiagnosticUserData, saveDiagnosticRequest } from '@/utils/diagnosticUtils';
 import { toast as sonnerToast } from 'sonner';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import { CheckCircle, ArrowRight } from 'lucide-react';
+import { CheckCircle, ArrowRight, ChevronRight } from 'lucide-react';
+import { generateResultsObject } from '@/components/sustainability/SustainabilityResultUtils';
+import SustainabilityResultsDisplay from '@/components/sustainability/SustainabilityResultsDisplay';
 
 const SustainabilityCheck = () => {
   const [progress, setProgress] = useState(10);
@@ -22,6 +24,7 @@ const SustainabilityCheck = () => {
   const [selectedSdgs, setSelectedSdgs] = useState<number[]>([]);
   const [answers, setAnswers] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showResults, setShowResults] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
   
@@ -68,27 +71,41 @@ const SustainabilityCheck = () => {
     window.scrollTo(0, 0);
   };
 
+  const handleViewResults = () => {
+    setShowResults(true);
+    window.scrollTo(0, 0);
+  };
+
   const handleSubmitDiagnostic = async () => {
     setIsSubmitting(true);
     
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
       
-      console.log('Diagnostic data submitted:', {
+      const diagnosticData = {
         companyName,
         industry,
         selectedSdgs,
-        answers
-      });
+        answers,
+        timestamp: new Date().toISOString()
+      };
       
-      sonnerToast.success('診断リクエストを受け付けました', {
-        description: '診断結果は3営業日以内にメールでお送りします',
-        duration: 5000,
-      });
+      console.log('Diagnostic data submitted:', diagnosticData);
       
-      setTimeout(() => {
-        navigate('/');
-      }, 3000);
+      const saved = saveDiagnosticRequest('sustainability', diagnosticData);
+      
+      if (saved) {
+        sonnerToast.success('診断リクエストを受け付けました', {
+          description: '診断結果は3営業日以内にメールでお送りします',
+          duration: 5000,
+        });
+        
+        setTimeout(() => {
+          navigate('/');
+        }, 3000);
+      } else {
+        throw new Error('保存に失敗しました');
+      }
       
     } catch (error) {
       sonnerToast.error('エラーが発生しました', {
@@ -98,6 +115,16 @@ const SustainabilityCheck = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+  
+  const handleDetailedDiagnostics = () => {
+    navigate("/comprehensive-diagnostics", { 
+      state: { fromSustainabilityCheck: true } 
+    });
+  };
+  
+  const handleConsultantContact = () => {
+    navigate("/contact");
   };
   
   const CompletionMessage = () => (
@@ -130,18 +157,31 @@ const SustainabilityCheck = () => {
           <p className="text-sm text-gray-500">選択されたSDGs：{selectedSdgs.length}個</p>
         </div>
         
-        <Button
-          onClick={handleSubmitDiagnostic}
-          className="bg-green-600 hover:bg-green-700 gap-2 px-6"
-          size="lg"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? '送信中...' : '診断を申し込む'}
-          <ArrowRight className="h-4 w-4" />
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button
+            onClick={handleViewResults}
+            variant="outline"
+            className="border-green-200 text-green-700 gap-2"
+            size="lg"
+          >
+            グラフでプレビュー <ChevronRight className="h-4 w-4" />
+          </Button>
+          
+          <Button
+            onClick={handleSubmitDiagnostic}
+            className="bg-green-600 hover:bg-green-700 gap-2 px-6"
+            size="lg"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? '送信中...' : '診断を申し込む'}
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
     </motion.section>
   );
+  
+  const results = generateResultsObject(answers, selectedSdgs);
   
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -177,7 +217,31 @@ const SustainabilityCheck = () => {
           />
         )}
         
-        {step === 'completion' && <CompletionMessage />}
+        {step === 'completion' && !showResults && <CompletionMessage />}
+        
+        {showResults && (
+          <>
+            <div className="mb-6">
+              <Button
+                onClick={() => setShowResults(false)}
+                variant="outline"
+                className="mb-4"
+                size="sm"
+              >
+                ← 戻る
+              </Button>
+            </div>
+            <SustainabilityResultsDisplay
+              companyName={companyName}
+              industry={industry}
+              selectedSdgs={selectedSdgs}
+              results={results}
+              answers={answers}
+              onDetailedDiagnostics={handleDetailedDiagnostics}
+              onConsultantContact={handleConsultantContact}
+            />
+          </>
+        )}
       </main>
       
       <Footer />

@@ -20,6 +20,7 @@ const ProductsDropdown: React.FC<ProductsDropdownProps> = ({
     <DropdownMenu 
       isOpen={isOpen} 
       onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       className="relative group"
     >
       <span 

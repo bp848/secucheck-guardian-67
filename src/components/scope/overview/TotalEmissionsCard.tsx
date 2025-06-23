@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Download, ArrowRight } from 'lucide-react';
+import { Download } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -10,15 +10,13 @@ interface TotalEmissionsCardProps {
   unit: string;
   previousYearValue: number;
   onDownloadReport: () => void;
-  onViewDetails: () => void;
 }
 
 const TotalEmissionsCard: React.FC<TotalEmissionsCardProps> = ({
   total,
   unit,
   previousYearValue,
-  onDownloadReport,
-  onViewDetails
+  onDownloadReport
 }) => {
   const reductionPercentage = ((1 - total / previousYearValue) * 100).toFixed(1);
   
@@ -39,10 +37,6 @@ const TotalEmissionsCard: React.FC<TotalEmissionsCardProps> = ({
             <Button variant="outline" className="flex gap-2" onClick={onDownloadReport}>
               <Download className="h-4 w-4" />
               レポート
-            </Button>
-            <Button className="flex gap-2 bg-purple-600 hover:bg-purple-700" onClick={onViewDetails}>
-              詳細を見る
-              <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
         </div>

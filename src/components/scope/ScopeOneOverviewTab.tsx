@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { motion } from 'framer-motion';
-import { Download, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Download } from 'lucide-react';
 import {
   BarChart,
   Bar,
@@ -68,16 +67,14 @@ const ScopeOneOverviewTab: React.FC<ScopeOneOverviewTabProps> = ({
               <p className="text-gray-600 mt-2">前年度比 {((1 - scopeOneData.total / scopeOneData.yearOverYear[1].value) * 100).toFixed(1)}% 削減</p>
             </div>
             <div className="flex gap-4">
-              <Button variant="outline" className="flex gap-2" onClick={onDownloadReport}>
+              <Button 
+                variant="outline" 
+                className="flex gap-2" 
+                onClick={onDownloadReport}
+              >
                 <Download className="h-4 w-4" />
-                レポート
+                レポートダウンロード
               </Button>
-              <Link to={`/scope-one?tab=details`}>
-                <Button className="flex gap-2 bg-indigo-600 hover:bg-indigo-700">
-                  詳細を見る
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
             </div>
           </div>
         </CardContent>

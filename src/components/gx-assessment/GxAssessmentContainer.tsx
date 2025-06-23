@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
@@ -25,23 +24,19 @@ const GxAssessmentContainer = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  // Load user data from localStorage on component mount
   useEffect(() => {
     const userData = getDiagnosticUserData();
     if (userData) {
-      // Pre-fill company name from the initial form
       setCompanyInfo(prev => ({
         ...prev,
         name: userData.companyName || ''
       }));
       
-      // If we have user data, show a welcome toast
       toast({
         title: `${userData.userName}様、ようこそ`,
         description: "GX対応度診断を始めましょう",
       });
     } else {
-      // If no user data, redirect to diagnostic landing
       navigate('/diagnostic-landing');
       toast({
         title: "診断を始めるには情報が必要です",
@@ -64,7 +59,6 @@ const GxAssessmentContainer = () => {
   const handleAnswersUpdate = (newAnswers: Record<string, boolean>) => {
     setAnswers(newAnswers);
     
-    // 回答数に基づいて進捗状況を更新
     const totalQuestions = Object.keys(gxQuestionData).reduce(
       (sum, category) => sum + gxQuestionData[category].length, 0
     );
@@ -78,11 +72,9 @@ const GxAssessmentContainer = () => {
     setStep('results');
     window.scrollTo(0, 0);
     
-    // スコア計算
     const score = calculateOverallScore(answers);
     const categoryScores = calculateCategoryScores(answers);
     
-    // 結果の生成
     setAssessmentResults(generateResultsObject(score, categoryScores, companyInfo));
     
     toast({
@@ -91,14 +83,12 @@ const GxAssessmentContainer = () => {
     });
   };
 
-  // 詳細診断ページへの移動関数
   const handleDetailedDiagnostics = () => {
     navigate("/comprehensive-diagnostics", { 
       state: { fromGxAssessment: true } 
     });
   };
   
-  // コンサルタントへの相談フォームへの移動関数
   const handleConsultantContact = () => {
     navigate("/contact");
   };
@@ -124,7 +114,8 @@ const GxAssessmentContainer = () => {
       
       {step === 'results' && assessmentResults && (
         <GxAssessmentResults 
-          results={assessmentResults} 
+          results={assessmentResults}
+          answers={answers}
           onDetailedDiagnostics={handleDetailedDiagnostics}
           onConsultantContact={handleConsultantContact}
         />

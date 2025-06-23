@@ -11,7 +11,7 @@ interface RecommendationsCardProps {
   title?: string;
   description?: string;
   onDetailedDiagnostics: () => void;
-  onConsultantContact: () => void;
+  onConsultantContact?: () => void;
 }
 
 const RecommendationsCard: React.FC<RecommendationsCardProps> = ({ 
@@ -21,6 +21,10 @@ const RecommendationsCard: React.FC<RecommendationsCardProps> = ({
   onDetailedDiagnostics,
   onConsultantContact
 }) => {
+  const handleConsultantContact = () => {
+    window.open('https://form.typeform.com/to/Qv6t1Q', '_blank');
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -54,7 +58,7 @@ const RecommendationsCard: React.FC<RecommendationsCardProps> = ({
           </Button>
           <Button 
             variant="outline" 
-            onClick={onConsultantContact}
+            onClick={handleConsultantContact}
             className="w-full sm:w-auto gap-2"
           >
             <ArrowRight className="h-4 w-4" />

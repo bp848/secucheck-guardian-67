@@ -19,6 +19,7 @@ const OthersDropdown: React.FC<OthersDropdownProps> = ({
     <DropdownMenu 
       isOpen={isOpen} 
       onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       className="relative group"
     >
       <span 
@@ -34,7 +35,7 @@ const OthersDropdown: React.FC<OthersDropdownProps> = ({
         <Link to="/dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors duration-200">
           ダッシュボード
         </Link>
-        <Link to="/contact" className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors duration-200">
+        <Link to="https://form.typeform.com/to/Qv6t1Q" className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors duration-200">
           お問い合わせ
         </Link>
       </DropdownContent>

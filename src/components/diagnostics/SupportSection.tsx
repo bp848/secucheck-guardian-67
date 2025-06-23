@@ -2,7 +2,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, FileText, BarChart4, Users } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 const SupportSection: React.FC = () => (
@@ -50,12 +49,14 @@ const SupportSection: React.FC = () => (
         </div>
       </div>
       <div className="flex justify-center mt-4">
-        <Link to="/contact">
-          <Button size="lg" className="bg-white text-green-700 hover:bg-gray-100 gap-2">
-            詳細を問い合わせる
-            <ArrowRight className="h-4 w-4" />
-          </Button>
-        </Link>
+        <Button 
+          size="lg" 
+          className="bg-white text-green-700 hover:bg-gray-100 gap-2"
+          onClick={() => window.open('https://form.typeform.com/to/Qv6t1Q', '_blank')}
+        >
+          詳細を問い合わせる
+          <ArrowRight className="h-4 w-4" />
+        </Button>
       </div>
     </div>
   </motion.div>
